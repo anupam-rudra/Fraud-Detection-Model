@@ -1,23 +1,26 @@
-# Credit Card Fraud Detection Using Machine Learning & Deep Learning
+# Credit Card Fraud Detection Using Machine Learning, Deep Learning & Ensemble Learning
 
-A complete end-to-end **Credit Card Fraud Detection System** built using multiple Machine Learning, Deep Learning, and Ensemble Learning techniques to identify fraudulent transactions from highly imbalanced financial datasets.
+A complete end-to-end **Credit Card Fraud Detection System** built using advanced Machine Learning, Deep Learning, Anomaly Detection, and Ensemble Learning techniques to identify fraudulent financial transactions from highly imbalanced datasets.
 
-This project combines:
+This project combines multiple supervised and unsupervised models including:
 
 - Logistic Regression
 - Random Forest
 - XGBoost
 - Feed Forward Neural Network (FFNN)
 - Autoencoder Anomaly Detection
-- Dynamic Weighted Ensemble Model
+- Dynamic Weighted Ensemble
+- Stacking Ensemble Learning
 
-with advanced techniques such as:
+along with advanced fraud detection techniques such as:
 
-- SMOTE oversampling
-- Threshold optimization
-- Precision-Recall analysis
-- ROC-AUC evaluation
-- Dynamic ensemble weighting
+- SMOTE Oversampling
+- Dynamic Threshold Optimization
+- Precision-Recall Analysis
+- ROC-AUC Evaluation
+- PR-AUC Based Ensemble Weighting
+- Reconstruction Error Detection
+- Meta-Learning for Stacking Ensemble
 
 ---
 
@@ -31,31 +34,38 @@ with advanced techniques such as:
 - [Machine Learning Models](#machine-learning-models)
 - [Deep Learning Models](#deep-learning-models)
 - [Ensemble Learning](#ensemble-learning)
+- [Stacking Ensemble Learning](#stacking-ensemble-learning)
 - [Evaluation Metrics](#evaluation-metrics)
+- [Visualizations](#visualizations)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
 - [How to Run](#how-to-run)
 - [Results](#results)
-- [Visualizations](#visualizations)
+- [Key Features](#key-features)
 - [Future Improvements](#future-improvements)
 - [Conclusion](#conclusion)
+- [Author](#author)
+- [License](#license)
 
 ---
 
 # Project Overview
 
-Credit card fraud detection is one of the most important applications of machine learning in the financial sector.
+Credit card fraud detection is one of the most important real-world applications of Machine Learning in the financial industry.
 
-Fraudulent transactions are extremely rare compared to genuine transactions, making this a highly imbalanced classification problem.
+Fraudulent transactions represent only a tiny fraction of all transactions, making fraud detection a highly imbalanced classification problem.
 
 The main objective of this project is to build an intelligent fraud detection system capable of:
 
 - Detecting fraudulent transactions accurately
 - Minimizing false positives
-- Handling class imbalance effectively
-- Improving prediction performance using ensemble learning
+- Handling severe class imbalance
+- Improving recall without sacrificing precision
+- Combining multiple models for better robustness
+- Detecting anomalies using reconstruction error
+- Optimizing prediction thresholds dynamically
 
-This project implements multiple supervised and unsupervised learning approaches and combines them into a powerful dynamic ensemble model.
+This project implements both supervised and unsupervised learning approaches and combines them into advanced ensemble systems for improved fraud detection performance.
 
 ---
 
@@ -66,9 +76,9 @@ The dataset used in this project is the popular **Credit Card Fraud Detection Da
 ## Dataset Features
 
 - Transactions made by European cardholders
-- Contains numerical input variables
+- Numerical input variables only
 - Features `V1` to `V28` are PCA-transformed variables
-- Additional features:
+- Additional raw features:
   - `Time`
   - `Amount`
 - Target column:
@@ -78,8 +88,9 @@ The dataset used in this project is the popular **Credit Card Fraud Detection Da
 
 ## Dataset Characteristics
 
-- Highly imbalanced dataset
-- Fraud cases represent a very small percentage of total transactions
+- Extremely imbalanced dataset
+- Fraud transactions represent a very small percentage of total records
+- Suitable for anomaly detection and imbalanced learning research
 
 ---
 
@@ -87,14 +98,15 @@ The dataset used in this project is the popular **Credit Card Fraud Detection Da
 
 Traditional machine learning models often struggle with highly imbalanced datasets because they become biased toward the majority class.
 
-Challenges addressed in this project:
+Key challenges addressed in this project:
 
 - Extreme class imbalance
 - High false-negative risk
+- Fraud anomaly detection
 - Threshold optimization
 - Precision vs Recall tradeoff
-- Fraud anomaly detection
-- Model robustness
+- Model generalization
+- Ensemble robustness
 
 ---
 
@@ -105,6 +117,8 @@ Challenges addressed in this project:
 - Load dataset using Pandas
 - Inspect dataset shape and structure
 
+---
+
 ## 2. Exploratory Data Analysis (EDA)
 
 - Display dataset information
@@ -112,25 +126,66 @@ Challenges addressed in this project:
 - Analyze class distribution
 - Visualize fraud imbalance
 
+---
+
 ## 3. Data Preprocessing
 
 ### Feature Scaling
 
-StandardScaler is applied to:
+`StandardScaler` is applied to:
+
 - `Time`
 - `Amount`
 
 ### Train-Test Split
 
-Dataset split into:
+Dataset is split into:
+
 - 80% training
 - 20% testing
 
 using stratified sampling.
 
+---
+
 ## 4. Handling Imbalanced Data
 
-SMOTE (Synthetic Minority Oversampling Technique) is used to generate synthetic fraud samples for better learning.
+SMOTE (Synthetic Minority Oversampling Technique) is used to generate synthetic fraud samples for better model learning.
+
+---
+
+## 5. Model Training
+
+The project trains multiple models:
+
+### Supervised Learning Models
+
+- Logistic Regression
+- Random Forest
+- XGBoost
+- Feed Forward Neural Network
+
+### Unsupervised Learning Model
+
+- Autoencoder
+
+---
+
+## 6. Threshold Optimization
+
+Instead of using a fixed threshold (`0.5`), the project dynamically finds the optimal threshold using:
+
+- Precision-Recall Curve
+- F1 Score Maximization
+
+---
+
+## 7. Ensemble Learning
+
+The project combines multiple model predictions using:
+
+- Dynamic Weighted Ensemble
+- Stacking Ensemble
 
 ---
 
@@ -143,129 +198,172 @@ SMOTE (Synthetic Minority Oversampling Technique) is used to generate synthetic 
 ## Libraries
 
 ### Data Analysis
+
 - NumPy
 - Pandas
 
 ### Visualization
+
 - Matplotlib
 - Seaborn
 
 ### Machine Learning
+
 - Scikit-learn
 - XGBoost
 - Imbalanced-learn
 
 ### Deep Learning
+
 - TensorFlow
 - Keras
 
 ### Model Persistence
+
 - Joblib
 
 ---
 
 # Machine Learning Models
 
-## 1. Logistic Regression
+# 1. Logistic Regression
 
 A baseline linear classification model.
 
-### Features
-- Fast and interpretable
-- Probability-based prediction
-- Dynamic threshold optimization
+## Features
 
-### Evaluation
+- Fast and interpretable
+- Probability-based predictions
+- Dynamic threshold optimization
+- Precision-Recall analysis
+
+## Evaluation Metrics
+
 - Precision
 - Recall
 - F1 Score
 - ROC-AUC
-- Precision-Recall Curve
+- PR-AUC
 
 ---
 
-## 2. Random Forest Classifier
+# 2. Random Forest Classifier
 
-An ensemble tree-based model.
+An ensemble tree-based classification model.
 
-### Features
+## Features
+
 - Handles nonlinear relationships
 - Feature importance analysis
 - Balanced class weighting
-- Parallel training support
+- Parallelized training
 
-### Advantages
+## Advantages
+
 - Robust against overfitting
-- High accuracy on tabular data
+- Strong tabular performance
+- High fraud detection capability
 
 ---
 
-## 3. XGBoost Classifier
+# 3. XGBoost Classifier
 
 A gradient boosting algorithm optimized for structured data.
 
-### Features
+## Features
+
 - Boosting-based learning
 - Handles imbalance using `scale_pos_weight`
-- High predictive performance
 - Regularization support
+- High predictive performance
 
-### Advantages
-- Excellent fraud detection capability
-- State-of-the-art tabular performance
+## Advantages
+
+- Excellent fraud detection accuracy
+- State-of-the-art tabular learning performance
 
 ---
 
 # Deep Learning Models
 
-## 4. Feed Forward Neural Network (FFNN)
+# 4. Feed Forward Neural Network (FFNN)
 
 A fully connected deep neural network for fraud classification.
 
-### Architecture
+## Architecture
 
-Input Layer → Dense(64) → Dense(32) → Dense(16) → Output Layer
+```text
+Input Layer
+   ↓
+Dense(64) + ReLU
+   ↓
+Dropout(0.3)
+   ↓
+Dense(32) + ReLU
+   ↓
+Dropout(0.3)
+   ↓
+Dense(16) + ReLU
+   ↓
+Output Layer (Sigmoid)
+```
 
-### Features
+## Features
+
 - Dropout regularization
 - Early stopping
 - Binary cross-entropy loss
 - Precision/Recall/AUC monitoring
+- Class-weight handling
 
 ---
 
-## 5. Autoencoder
+# 5. Autoencoder
 
 An unsupervised anomaly detection model.
 
-### Working Principle
+## Working Principle
 
 - Train only on genuine transactions
 - Learn normal transaction patterns
-- Fraudulent transactions produce high reconstruction error
+- Fraudulent transactions generate higher reconstruction error
 
-### Advantages
+## Reconstruction Error
+
+```text
+MSE = Mean((Original - Reconstructed)^2)
+```
+
+## Advantages
+
 - Useful for anomaly detection
 - Works even with limited fraud labels
+- Detects unseen fraud patterns
 
 ---
 
 # Ensemble Learning
 
-## Dynamic Weighted Ensemble Model
+# Dynamic Weighted Ensemble Model
 
-The final system combines predictions from:
+The project combines predictions from:
 
 - Logistic Regression
 - Random Forest
 - XGBoost
-- Neural Network
+- Feed Forward Neural Network
 
-### Ensemble Strategy
+## Ensemble Strategy
 
 Weights are dynamically assigned based on PR-AUC scores.
 
-### Weighted Probability Formula
+## Dynamic Weight Formula
+
+```text
+Weight_i = PR-AUC_i / Total PR-AUC
+```
+
+## Ensemble Probability Formula
 
 ```text
 Ensemble Probability =
@@ -275,38 +373,74 @@ Ensemble Probability =
 (w4 × NN)
 ```
 
-### Benefits
+## Benefits
 
 - Improves robustness
 - Reduces model bias
 - Enhances fraud detection accuracy
 - Balances precision and recall
+- Leverages strengths of multiple models
+
+---
+
+# Stacking Ensemble Learning
+
+The project also implements an advanced stacking ensemble architecture.
+
+## Meta Features
+
+The stacking model uses:
+
+- Logistic Regression probabilities
+- Random Forest probabilities
+- XGBoost probabilities
+- Neural Network probabilities
+- Autoencoder anomaly scores
+
+as meta-features.
+
+## Meta Model
+
+- Logistic Regression is used as the final meta-classifier.
+
+## Advantages
+
+- Learns relationships between model predictions
+- Improves ensemble intelligence
+- Enhances fraud classification performance
 
 ---
 
 # Evaluation Metrics
 
-Since fraud detection is an imbalanced classification problem, traditional accuracy is not sufficient.
+Since fraud detection is an imbalanced classification problem, accuracy alone is not sufficient.
 
 The following metrics are used:
 
-## Precision
+# Precision
+
 Measures how many predicted frauds are actually fraud.
 
-## Recall
+# Recall
+
 Measures how many actual frauds are detected.
 
-## F1 Score
+# F1 Score
+
 Harmonic mean of Precision and Recall.
 
-## ROC-AUC
-Measures model discrimination ability.
+# ROC-AUC
 
-## Precision-Recall Curve
+Measures model discrimination capability.
+
+# PR-AUC (Precision-Recall AUC)
+
 Most important metric for highly imbalanced datasets.
 
-## Confusion Matrix
+# Confusion Matrix
+
 Shows:
+
 - True Positives
 - False Positives
 - True Negatives
@@ -316,7 +450,7 @@ Shows:
 
 # Visualizations
 
-The project includes:
+The project includes multiple visualizations:
 
 - Class distribution plots
 - Confusion matrices
@@ -324,6 +458,7 @@ The project includes:
 - Precision-Recall curves
 - Feature importance plots
 - Neural network training curves
+- Ensemble performance plots
 
 ---
 
@@ -337,6 +472,8 @@ Credit-Card-Fraud-Detection/
 ├── fraud_detection_rf.pkl
 ├── fraud_detection_ffnn.h5
 ├── dynamic_ensemble_config.pkl
+├── stacking_meta_model.pkl
+├── autoencoder_mse_scaler.pkl
 ├── README.md
 │
 └── images/
@@ -344,6 +481,8 @@ Credit-Card-Fraud-Detection/
     ├── roc_curve.png
     ├── pr_curve.png
     ├── confusion_matrix.png
+    ├── feature_importance.png
+    ├── training_loss.png
 ```
 
 ---
@@ -356,11 +495,15 @@ Credit-Card-Fraud-Detection/
 git clone https://github.com/your-username/Credit-Card-Fraud-Detection.git
 ```
 
+---
+
 ## Navigate to Project Folder
 
 ```bash
 cd Credit-Card-Fraud-Detection
 ```
+
+---
 
 ## Install Dependencies
 
@@ -380,7 +523,7 @@ pip install numpy pandas matplotlib seaborn scikit-learn imbalanced-learn xgboos
 
 # How to Run
 
-## Run Jupyter Notebook
+## Start Jupyter Notebook
 
 ```bash
 jupyter notebook
@@ -401,12 +544,22 @@ Run all cells sequentially.
 The project successfully:
 
 - Detects fraudulent transactions with high recall
-- Handles severe class imbalance
-- Optimizes thresholds dynamically
-- Improves performance using ensemble learning
-- Compares ML and Deep Learning approaches
+- Handles severe class imbalance effectively
+- Optimizes classification thresholds dynamically
+- Compares multiple ML and DL approaches
+- Uses anomaly detection for fraud analysis
+- Improves performance through ensemble learning
+- Builds advanced stacking ensemble architecture
 
-The ensemble model achieved the best overall balance between:
+## Best Performing Models
+
+The following models achieved strong fraud detection performance:
+
+- XGBoost
+- Dynamic Weighted Ensemble
+- Stacking Ensemble
+
+The ensemble models achieved the best overall balance between:
 
 - Precision
 - Recall
@@ -418,67 +571,71 @@ The ensemble model achieved the best overall balance between:
 
 # Key Features
 
-## Advanced Fraud Detection Pipeline
+# Advanced Fraud Detection Pipeline
 
 - Data preprocessing
 - SMOTE balancing
+- Feature scaling
 - Threshold tuning
 - Deep learning integration
+- Anomaly detection
 - Ensemble learning
+- Stacking ensemble architecture
 
-## Dynamic Threshold Optimization
+---
 
-Instead of using a fixed threshold of `0.5`, the system automatically finds the optimal threshold using F1 score maximization.
+# Dynamic Threshold Optimization
 
-## Real-World Fraud Detection Techniques
+Instead of using a fixed threshold of `0.5`, the system automatically finds the optimal threshold using F1 score maximization from the Precision-Recall curve.
+
+---
+
+# Real-World Fraud Detection Techniques
 
 - PR-AUC optimization
 - Class weighting
 - Reconstruction-error anomaly detection
-- Weighted soft voting ensemble
+- Weighted soft-voting ensemble
+- Meta-learning based stacking
 
 ---
 
 # Future Improvements
 
-Possible enhancements include:
+Possible future enhancements include:
 
 - Real-time fraud detection API
 - Streamlit web application
 - Hyperparameter tuning using Optuna
-- Cross-validation framework
-- Explainable AI (SHAP/LIME)
+- Stratified cross-validation
+- Explainable AI using SHAP/LIME
 - Docker deployment
 - Cloud deployment (AWS/GCP/Azure)
 - Real-time transaction streaming
-- Graph neural networks for fraud detection
+- Graph Neural Networks (GNNs)
+- Transformer-based anomaly detection
 
 ---
 
 # Conclusion
 
-This project demonstrates a complete fraud detection pipeline using both traditional machine learning and deep learning methods.
+This project demonstrates a complete real-world fraud detection pipeline using traditional machine learning, deep learning, anomaly detection, and ensemble learning techniques.
 
-By combining multiple models into a dynamic weighted ensemble system, the project achieves robust fraud detection performance on highly imbalanced financial data.
+By combining multiple supervised and unsupervised models into dynamic ensemble systems, the project achieves robust fraud detection performance on highly imbalanced financial datasets.
 
 The implementation showcases practical applications of:
 
 - Imbalanced learning
-- Ensemble learning
 - Deep learning
+- Ensemble learning
+- Stacking models
 - Anomaly detection
 - Threshold optimization
+- Precision-Recall analysis
 - Model evaluation
 
-making it a strong real-world machine learning portfolio project.
+making it a strong end-to-end machine learning portfolio project for real-world financial fraud detection.
 
----
-
-# Author
-
-## Anupam Naskar
-
-Machine Learning | Deep Learning | Data Science
 
 ---
 
