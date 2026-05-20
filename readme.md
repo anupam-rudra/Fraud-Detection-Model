@@ -636,9 +636,4 @@ The implementation showcases practical applications of:
 
 making it a strong end-to-end machine learning portfolio project for real-world financial fraud detection.
 
-
----
-
-# License
-
 This project is licensed under the MIT License.
